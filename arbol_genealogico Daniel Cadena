@@ -1,0 +1,100 @@
+es_hombre(eduardo).
+es_hombre(julio).
+es_hombre(gustavo).
+es_hombre(diego).
+es_hombre(pablo).
+es_hombre(pabloJr).
+es_hombre(luis).
+es_hombre(mario).
+es_hombre(jaramillo).
+es_hombre(david).
+es_hombre(marioJr).
+es_hombre(daniel).
+
+es_mujer(herselia).
+es_mujer(sofia).
+es_mujer(martha).
+es_mujer(valentina).
+es_mujer(iner).
+es_mujer(paola).
+es_mujer(juliana).
+es_mujer(diana).
+es_mujer(ana).
+es_mujer(paula).
+es_mujer(adriana).
+es_mujer(dora).
+es_mujer(gabriela).
+
+es_padre(eduardo, martha).
+es_padre(eduardo, gustavo).
+es_padre(eduardo, pablo).
+es_padre(eduardo, luis).
+es_padre(mario, ana).
+es_padre(mario, marioJr).
+es_padre(mario, dora).
+es_padre(julio, valentina).
+es_padre(gustavo, diego).
+es_padre(gustavo, paola).
+es_padre(pablo, pabloJr).
+es_padre(pablo, diana).
+es_padre(luis, paula).
+es_padre(jaramillo, david).
+es_padre(jaramillo, gabriela).
+es_padre(luis, daniel).
+
+es_madre(sofia, martha).
+es_madre(sofia, gustavo).
+es_madre(sofia, pablo).
+es_madre(sofia, luis).
+es_madre(herselia, ana).
+es_madre(herselia, marioJr).
+es_madre(herselia, dora).
+es_madre(ana, paula).
+es_madre(dora, david).
+es_madre(dora, gabriela).
+es_madre(ana, daniel).
+es_madre(juliana, pabloJr).
+es_madre(juliana, diana).
+
+es_hijo(X,Y) :- es_padre(Y,X), es_hombre(X).
+es_hija(X,Y) :- es_madre(Y,X), es_hombre(X).
+
+es_hija(X,Y) :- es_padre(Y,X), es_mujer(X).
+es_hija(X,Y) :- es_madre(Y,X), es_mujer(X).
+
+es_abuelo(X,Z) :- es_padre(X,Y), es_padre(Y,Z), es_hombre(X).
+es_abuela(X,Z) :- es_madre(X,Y), es_madre(Y,Z), es_mujer(X).
+
+es_nieto(X,Z) :- es_padre(Y,X), es_padre(Z,Y), es_hombre(X).
+es_nieta(X,Z) :- es_padre(Y,X), es_padre(Z,Y), es_mujer(X).
+
+es_hermano(X,Y) :- es_padre(Z,X), es_padre(Z,Y), es_hombre(X).
+es_hermana(X,Y) :- es_padre(Z,X), es_padre(Z,Y), es_mujer(X).
+
+es_tio(X,Y) :- es_padre(Z,Y), es_hermano(X,Z).
+es_tia(X,Y) :- es_padre(Z,Y), es_hermana(X,Z).
+
+es_sobrino(X,Y) :- es_hermano(Y,Z), es_hijo(X,Z).
+es_sobrina(X,Y) :- es_hermano(Y,Z), es_hija(X,Z).
+
+es_primo(X,Y) :- es_hijo(X,Z), es_sobrino(Y,Z).
+es_prima(X,Y) :- es_hija(X,Z), es_sobrina(Y,Z).
+
+es_esposo(X,Y) :- es_padre(X,Z), es_madre(Y,Z).
+es_esposa(X,Y) :- es_madre(X,Z), es_padre(Y,Z).
+
+es_cunado(X,Y) :- es_hermano(X,Z), es_esposo(Y,Z).
+es_cunada(X,Y) :- es_hermana(X,Z), es_esposa(Y,Z).
+
+es_suegro(X,Y) :- es_esposo(Y,Z), es_padre(X,Z).
+es_suegra(X,Y) :- es_esposo(Y,Z), es_madre(X,Z).
+
+es_tio_polotico(X,Y) :- es_tia(Z,X), es_esposo(Y,Z).
+es_tia_polotico(X,Y) :- es_tio(Z,X), es_esposa(Y,Z).
+
+es_ancestro(X,Y) :- es_padre(X,Y).
+es_ancestro(X,Y) :- es_madre(X,Y).
+
+es_ancestro(X,Y) :- es_padre(Z,Y), es_ancestro(X,Z).
+es_ancestro(X,Y) :- es_madre(Z,Y), es_ancestro(X,Z).
+
